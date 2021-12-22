@@ -7,7 +7,7 @@ const app = express()
 const port = process.env.PORT || 3000
 require('./config/mongoose')
 
-app.engine('hbs', engine({ extname: '.hbs', defaultLayout: "main" }));
+app.engine('hbs', engine({ extname: '.hbs', defaultLayout: "main", helpers: require('./config/helpers') }));
 app.set('view engine', 'hbs');
 
 app.use(routes)

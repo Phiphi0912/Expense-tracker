@@ -3,12 +3,19 @@ const router = express.Router()
 const Category = require('../../models/category')
 const Record = require('../../models/records')
 
-router.get('/', (req, res) => {
-  Record.find()
+router.get('/new', (req, res) => {
+  res.render('new')
+})
+
+router.get('/:id', (req, res) => {
+  const _id = req.params.id
+
+  Record.findById({ _id })
     .populate('categoryId')
     .lean()
-    .then(records => res.render('index', { records }))
+    .then(record => res.render('edit', { record }))
     .catch(err => console.log(err))
 })
+
 
 module.exports = router
