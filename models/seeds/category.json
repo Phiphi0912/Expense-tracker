@@ -1,26 +1,26 @@
 [
   {
-    "categoryName": "transportation",
+    "name": "transportation",
     "category": "交通出行",
     "categoryIcon": "fas fa-shuttle-van"
   },
   {
-    "categoryName": "Accommodation",
+    "name": "Accommodation",
     "category": "家居物業",
     "categoryIcon": "fas fa-home"
   },
   {
-    "categoryName": "dining",
+    "name": "dining",
     "category": "餐飲食品",
     "categoryIcon": "fas fa-utensils"
   },
   {
-    "categoryName": "leisure",
+    "name": "leisure",
     "category": "休閒娛樂",
     "categoryIcon": "fas fa-grin-beam"
   },
   {
-    "categoryName": "other",
+    "name": "other",
     "category": "其他",
     "categoryIcon": "fas fa-pen"
   }
