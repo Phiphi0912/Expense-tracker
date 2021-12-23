@@ -16,9 +16,13 @@
   <nav class="navbar navbar-light p-3 mb-2 text-dark" style="background-color: rgb(221, 193, 142);">
     <div class="container-fluid">
       <a class="navbar-brand ms-2" href="/">
-        <h3><strong>家庭記帳本<i class="far fa-clipboard ms-2"></i></strong></h3>
+        <h3><strong> {{#if isAuthenticated}}{{user.name}}的{{/if}}記帳本<i class="far fa-clipboard ms-2"></i></strong></h3>
       </a>
+      {{#if isAuthenticated}}
       <a href="/users/logout" class="btn btn-outline-dark me-5">登出</a>
+      {{else}}
+      <a href="/users/login" class="btn btn-outline-dark me-5">登入</a>
+      {{/if}}
     </div>
   </nav>
 
