@@ -1,13 +1,12 @@
 <div class="container" style="background-color: rgb(205, 215, 226);">
-  <form action="/records" method="POST" class="container rounded mt-5 py-2">
+  <form action="/records/create" method="POST" class="container rounded mt-5 py-2">
     <div class="row align-items-center  m-2 py-3">
       <h6 class="col-4 text-danger"><strong>*必填欄位</strong></h6>
       <h2 class="col-8">請輸入你的支出</h2>
     </div>
     <div class="row form-group align-items-center m-2 mr-3 py-3">
       <label class="col-4 h4" for="name">名稱<span class="text-danger"> *</span></label>
-      <input type="text" class="form-control col-8" name="name" id="name" maxlength="8" placeholder="請輸入項目名稱"
-        required />
+      <input type="text" class="form-control col-8" name="name" id="name" placeholder="請輸入項目名稱" required />
     </div>
     <div class="row form-group align-items-center m-2 mr-3 py-3">
       <label class="col-4 h4" for="date">日期<span class="text-danger"> *</span></label>
