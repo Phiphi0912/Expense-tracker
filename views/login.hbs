@@ -1,9 +1,8 @@
 <div class="row mt-5">
   <div class="col-md-6 mx-auto">
     <div class="card card-body" id="login">
-      <h1 class="text-center mt-3">
-        登入</i>
-      </h1>
+      <h1 class="text-center mt-3">登入</h1>
+      {{> message}}
       <form action="/users/login" method="POST">
         <div class="form-group">
           <label for="email" class="h5">電子郵件<i class="far fa-envelope ms-2"></i></label>

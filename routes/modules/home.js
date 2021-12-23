@@ -4,7 +4,8 @@ const Category = require('../../models/category')
 const Record = require('../../models/records')
 
 router.get('/', (req, res) => {
-  Record.find()
+  const userId = req.user._id
+  Record.find({ userId })
     .populate('categoryId')
     .lean()
     .then(records => res.render('index', { records }))

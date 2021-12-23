@@ -19,9 +19,9 @@
         <h3><strong> {{#if isAuthenticated}}{{user.name}}的{{/if}}記帳本<i class="far fa-clipboard ms-2"></i></strong></h3>
       </a>
       {{#if isAuthenticated}}
-      <a href="/users/logout" class="btn btn-outline-dark me-5">登出</a>
+      <a href="/users/logout" class="btn btn-outline-secondary me-5">登出</a>
       {{else}}
-      <a href="/users/login" class="btn btn-outline-dark me-5">登入</a>
+      <a href="/users/login" class="btn btn-outline-primary me-5">登入</a>
       {{/if}}
     </div>
   </nav>
