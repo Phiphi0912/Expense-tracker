@@ -3,6 +3,7 @@ const User = require('../users')
 const Category = require('../category')
 const records = require('./records.json')
 const Record = require('../records')
+const bcrypt = require('bcryptjs')
 
 const seed_users = [
   { name: "user1", email: "user1@example.com", password: "12345678", Index: [0, 1, 2] },
