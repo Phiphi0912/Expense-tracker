@@ -1,14 +1,14 @@
 <div class="container mt-5" style="background-color: rgb(205, 215, 226);">
   <div class="row align-items-center">
     <div class="col-12 mx-2 my-2 text-center">
-      <form action="/sort" class="col">
+      <form action="/search" class="col">
         <select class="rounded mb-2 py-2" name='category'>
-          <option>全部類別</option>
-          <option>交通出行</option>
-          <option>家居物業</option>
-          <option>餐飲食品</option>
-          <option>休閒娛樂</option>
-          <option>其他</option>
+          <option {{compare category '全部類別' }}>全部類別</option>
+          <option {{compare category '交通出行' }}>交通出行</option>
+          <option {{compare category '家居物業' }}>家居物業</option>
+          <option {{compare category '餐飲食品' }}>餐飲食品</option>
+          <option {{compare category '休閒娛樂' }}>休閒娛樂</option>
+          <option {{compare category '其他' }}>其他</option>
         </select>
         <button type="submit" class="btn btn-outline-dark">搜尋</button>
       </form>
