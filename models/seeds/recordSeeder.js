@@ -23,11 +23,15 @@ db.once('open', () => {
 
   Promise.all(
     Array.from(seed_users, user => {
-      return User.create({
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      })
+      return bcrypt
+        .genSalt(10)
+        .then(salt => bcrypt.hash(user.password, salt))
+        .then(hash =>
+          User.create({
+            name: user.name,
+            email: user.email,
+            password: hash,
+          }))
         .then(createdUser => {
           const userId = createdUser._id
           const array = []
