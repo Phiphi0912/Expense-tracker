@@ -27,7 +27,10 @@ router.get('/:id', (req, res) => {
   Record.findById({ _id })
     .populate('categoryId')
     .lean()
-    .then(record => res.render('edit', { record }))
+    .then(record => {
+      if (!record) return errorHandler(err, res)
+      res.render('edit', { record })
+    })
     .catch(err => errorHandler(err, res))
 })
 
@@ -53,7 +56,10 @@ router.delete('/:id', (req, res) => {
   if (!_id) return
 
   return Record.findOne({ _id, userId })
-    .then(record => record.remove())
+    .then(record => {
+      if (!record) return errorHandler(err, res)
+      record.remove()
+    })
     .then(() => res.redirect('/'))
     .catch(err => errorHandler(err, res))
 })
