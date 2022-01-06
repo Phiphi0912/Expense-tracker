@@ -3,6 +3,7 @@ const router = express.Router()
 const User = require('../../models/users')
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
+const { errorHandler } = require('../../middleware/errorHandler')
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -53,7 +54,7 @@ router.post('/register', (req, res) => {
           res.redirect('/users/login')
         })
     })
-    .catch(err => console.log(err))
+    .catch(err => errorHandler(err, res))
 })
 
 router.get('/logout', (req, res) => {

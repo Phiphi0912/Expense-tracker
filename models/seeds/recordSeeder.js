@@ -4,6 +4,7 @@ const Category = require('../category')
 const records = require('./records.json')
 const Record = require('../records')
 const bcrypt = require('bcryptjs')
+const { errorHandler } = require('../../middleware/errorHandler')
 
 const seed_users = [
   { name: "user1", email: "user1@example.com", password: "12345678" },
@@ -38,12 +39,12 @@ db.once('open', () => {
             const userId = createdUser._id
             records.forEach(item => item.userId = userId)
             await Record.create(records)
-          } catch (err) { console.log(err) }
+          } catch (err) { errorHandler(err, res) }
         })
         .then(() => { console.log('record done') })
         .finally(() => process.exit())
     } catch (err) {
-      console.log(err)
+      errorHandler(err, res)
     }
   })
 

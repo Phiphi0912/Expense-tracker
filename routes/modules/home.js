@@ -3,6 +3,7 @@ const { render } = require('express/lib/response')
 const router = express.Router()
 const Category = require('../../models/category')
 const Record = require('../../models/records')
+const { errorHandler } = require('../../middleware/errorHandler')
 
 router.get('/', (req, res) => {
   const userId = req.user._id
@@ -10,7 +11,7 @@ router.get('/', (req, res) => {
     .populate('categoryId')
     .lean()
     .then(records => res.render('index', { records }))
-    .catch(err => console.log(err))
+    .catch(err => errorHandler(err, res))
 })
 
 router.get('/search', async (req, res) => {
@@ -23,7 +24,7 @@ router.get('/search', async (req, res) => {
     .populate('categoryId')
     .lean()
     .then(records => res.render('index', { records, category }))
-    .catch(err => console.log(err))
+    .catch(err => errorHandler(err, res))
 })
 
 module.exports = router

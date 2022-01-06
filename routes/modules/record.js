@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Category = require('../../models/category')
 const Record = require('../../models/records')
+const { errorHandler } = require('../../middleware/errorHandler')
 
 router.get('/new', (req, res) => {
   res.render('new')
@@ -13,7 +14,7 @@ router.post('/create', async (req, res) => {
   const userId = req.user._id
   Record.create({ ...body, categoryId: categoryObj._id, userId })
     .then(() => res.redirect('/'))
-    .catch(err => console.log(err))
+    .catch(err => errorHandler(err, res))
 })
 
 router.get('/:id', (req, res) => {
@@ -23,7 +24,7 @@ router.get('/:id', (req, res) => {
     .populate('categoryId')
     .lean()
     .then(record => res.render('edit', { record }))
-    .catch(err => console.log(err))
+    .catch(err => errorHandler(err, res))
 })
 
 router.put('/:id', async (req, res) => {
@@ -35,7 +36,7 @@ router.put('/:id', async (req, res) => {
 
   return Record.findOneAndUpdate({ _id }, { $set: body, categoryId: categoryObj._id, userId })
     .then(() => res.redirect('/'))
-    .catch(err => console.log(err))
+    .catch(err => errorHandler(err, res))
 })
 
 router.delete('/:id', (req, res) => {
@@ -46,7 +47,7 @@ router.delete('/:id', (req, res) => {
   return Record.findOne({ _id, userId })
     .then(record => record.remove())
     .then(() => res.redirect('/'))
-    .catch(err => console.log(err))
+    .catch(err => errorHandler(err, res))
 })
 
 
