@@ -15,16 +15,20 @@ router.get('/', (req, res) => {
 })
 
 router.get('/search', async (req, res) => {
-  const userId = req.user._id
-  const category = req.query.category
-  const search = (category === '全部類別') ? '' : await Category.findOne({ category }).lean()
-  const searchResult = (search === '') ? { userId } : { userId, category: search.category }
+  try {
+    const userId = req.user._id
+    const category = req.query.category
+    const search = (category === '全部類別') ? '' : await Category.findOne({ category }).lean()
+    const searchResult = (search === '') ? { userId } : { userId, category: search.category }
 
-  Record.find(searchResult)
-    .populate('categoryId')
-    .lean()
-    .then(records => res.render('index', { records, category }))
-    .catch(err => errorHandler(err, res))
+    Record.find(searchResult)
+      .populate('categoryId')
+      .lean()
+      .then(records => res.render('index', { records, category }))
+      .catch(err => errorHandler(err, res))
+  } catch {
+    errorHandler(err, res)
+  }
 })
 
 module.exports = router
