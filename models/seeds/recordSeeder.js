@@ -6,8 +6,8 @@ const Record = require('../records')
 const bcrypt = require('bcryptjs')
 
 const seed_users = [
-  { name: "user1", email: "user1@example.com", password: "12345678", Index: [0, 1, 2] },
-  { name: "user2", email: "user2@example.com", password: "12345678", Index: [3, 4] },
+  { name: "user1", email: "user1@example.com", password: "12345678" },
+  { name: "user2", email: "user2@example.com", password: "12345678" },
 ]
 
 db.once('open', () => {
@@ -22,9 +22,9 @@ db.once('open', () => {
       })
   })
 
-  Promise.all(
-    Array.from(seed_users, user => {
-      return bcrypt
+  seed_users.forEach(async (user) => {
+    try {
+      await bcrypt
         .genSalt(10)
         .then(salt => bcrypt.hash(user.password, salt))
         .then(hash =>
@@ -33,19 +33,47 @@ db.once('open', () => {
             email: user.email,
             password: hash,
           }))
-        .then(createdUser => {
-          const userId = createdUser._id
-          const array = []
-          user.Index.forEach(index => {
-            records[index].userId = userId
-            array.push(records[index])
-          })
-          return Record.create(array)
+        .then(async createdUser => {
+          try {
+            const userId = createdUser._id
+            records.forEach(item => item.userId = userId)
+            await Record.create(records)
+          } catch (err) { console.log(err) }
         })
-    })
-  )
-    .then(() => {
-      console.log('record done')
-      process.exit()
-    })
+        .then(() => { console.log('record done') })
+        .finally(() => process.exit())
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
+  // Promise.all(
+  //   Array.from(seed_users, async (user) => {
+  //     try {
+  //       await bcrypt
+  //         .genSalt(10)
+  //         .then(salt => bcrypt.hash(user.password, salt))
+  //         .then(hash =>
+  //           User.create({
+  //             name: user.name,
+  //             email: user.email,
+  //             password: hash,
+  //           }))
+  //         .then(async createdUser => {
+  //           try {
+  //             const userId = createdUser._id
+  //             records.forEach(item => item.userId = userId)
+  //             await Record.create(records)
+  //           } catch (err) { console.log(err) }
+  //         })
+  //     } catch (err) {
+  //       console.log(err)
+  //     }
+  //   })
+  // )
+  //   .then(() => {
+  //     console.log('record done')
+  //     process.exit()
+  //   })
+  //   .catch(err => console.log(err))
 })

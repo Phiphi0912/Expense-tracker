@@ -9,7 +9,7 @@ router.get('/new', (req, res) => {
 
 router.post('/create', async (req, res) => {
   const body = req.body
-  const categoryObj = await Category.findOne({ category: body.category }).lean()
+  const categoryObj = await Category.findOne({ category: body.category }).lean() //運用非同步處理的地方加上 await
   const userId = req.user._id
   Record.create({ ...body, categoryId: categoryObj._id, userId })
     .then(() => res.redirect('/'))
