@@ -1,6 +1,7 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const User = require('../models/users')
 const bcrypt = require('bcryptjs')
 
@@ -45,8 +46,30 @@ module.exports = app => {
             password: hash
           }))
           .then(() => done(null, user))
-          .catch(err => console.log(err))
+          .catch(err => done(err))
       })
+      .catch(err => done(err))
+  }))
+
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK,
+  }, (accessToken, refreshToken, profile, done) => {
+    const { email, name } = profile._json
+    User.findOne({ email })
+      .then(async (user) => {
+        try {
+          if (user) return done(null, user)
+          const randomPassword = Math.random().toString(36).slice(-8)
+          const hashPassword = await bcrypt.genSalt(10).then(salt => bcrypt.hash(randomPassword, salt))
+          await User.create({ name, email, password: hashPassword })
+            .then(() => done(null, user))
+        } catch {
+          done(err)
+        }
+      })
+      .catch(err => done(err))
   }))
 
   passport.serializeUser((user, done) => {
