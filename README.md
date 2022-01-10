@@ -17,7 +17,7 @@ Demo Website: [Please click here](https://radiant-scrubland-82389.herokuapp.com/
 ## Home
 ![Homepage](/public/pictures/home.PNG)
 
-## features
+## Features
 - Users can login in with your account
 - Users can register a new account for yourself
 - Users can view all expense records.
