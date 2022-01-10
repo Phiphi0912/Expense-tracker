@@ -12,13 +12,12 @@ password: 12345678
 ```
 Demo Website: [Please click here](https://radiant-scrubland-82389.herokuapp.com/users/login)
 
-### Login
+## Login
 ![Homepage](/public/pictures/login.PNG)
-### Home
+## Home
 ![Homepage](/public/pictures/home.PNG)
 
-## 功能
-
+## features
 - Users can login in with your account
 - Users can register a new account for yourself
 - Users can view all expense records.
