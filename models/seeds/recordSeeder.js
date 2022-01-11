@@ -25,24 +25,15 @@ db.once('open', () => {
 
   seed_users.forEach(async (user) => {
     try {
-      await bcrypt
-        .genSalt(10)
-        .then(salt => bcrypt.hash(user.password, salt))
-        .then(hash =>
-          User.create({
-            name: user.name,
-            email: user.email,
-            password: hash,
-          }))
-        .then(async createdUser => {
-          try {
-            const userId = createdUser._id
-            records.forEach(item => item.userId = userId)
-            await Record.create(records)
-          } catch (err) { errorHandler(err, res) }
-        })
-        .then(() => { console.log('record done') })
-        .finally(() => process.exit())
+      const hashPassword = await bcrypt.genSalt(10).then(salt => bcrypt.hash(user.password, salt))
+      const createdUser = await User.create({ name: user.name, email: user.email, password: hashPassword })
+      const userId = createdUser._id
+      records.forEach(item => item.userId = userId)
+      await Record.create(records)
+
+      console.log('record done')
+      process.exit()
+
     } catch (err) {
       errorHandler(err, res)
     }
