@@ -35,7 +35,7 @@ db.once('open', () => {
       process.exit()
 
     } catch (err) {
-      errorHandler(err, res)
+      console.log(err)
     }
   })
 

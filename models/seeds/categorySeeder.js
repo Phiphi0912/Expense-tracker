@@ -5,6 +5,6 @@ const db = require('../../config/mongoose')
 db.once('open', () => {
   Category.insertMany(categoryData)
     .then(() => console.log("insert categorySeeder done."))
-    .catch(err => errorHandler(err, res))
+    .then(() => console.log(err))
     .finally(() => process.exit())
 })
