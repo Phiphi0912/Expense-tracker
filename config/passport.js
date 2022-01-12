@@ -65,7 +65,7 @@ module.exports = app => {
           const hashPassword = await bcrypt.genSalt(10).then(salt => bcrypt.hash(randomPassword, salt))
           await User.create({ name, email, password: hashPassword })
             .then(() => done(null, user))
-        } catch {
+        } catch (err) {
           done(err)
         }
       })

@@ -13,10 +13,10 @@ router.post('/create', async (req, res) => {
     const body = req.body
     const categoryObj = await Category.findOne({ category: body.category }).lean() //運用非同步處理的地方加上 await
     const userId = req.user._id
-    Record.create({ ...body, categoryId: categoryObj._id, userId })
-      .then(() => res.redirect('/'))
-      .catch(err => errorHandler(err, res))
-  } catch {
+    await Record.create({ ...body, categoryId: categoryObj._id, userId })
+    res.redirect('/')
+
+  } catch (err) {
     errorHandler(err, res)
   }
 })
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
     .populate('categoryId')
     .lean()
     .then(record => {
-      if (!record) return errorHandler(err, res)
+      if (!record) return Promise.reject(new Error('no record id: ' + _id))
       res.render('edit', { record })
     })
     .catch(err => errorHandler(err, res))
@@ -40,12 +40,11 @@ router.put('/:id', async (req, res) => {
     const body = req.body
     const categoryObj = await Category.findOne({ category: body.category }).lean()
     const userId = req.user._id
-    if (!body) return
 
-    return Record.findOneAndUpdate({ _id }, { $set: body, categoryId: categoryObj._id, userId })
-      .then(() => res.redirect('/'))
-      .catch(err => errorHandler(err, res))
-  } catch {
+    await Record.findOneAndUpdate({ _id }, { $set: body, categoryId: categoryObj._id, userId })
+    res.redirect('/')
+
+  } catch (err) {
     errorHandler(err, res)
   }
 })
@@ -53,11 +52,10 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', (req, res) => {
   const _id = req.params.id
   const userId = req.user._id
-  if (!_id) return
 
   return Record.findOne({ _id, userId })
     .then(record => {
-      if (!record) return errorHandler(err, res)
+      if (!record) return Promise.reject(new Error('no record id: ' + _id))
       record.remove()
     })
     .then(() => res.redirect('/'))
